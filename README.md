@@ -1,10 +1,14 @@
 # TeensyADS1256
 
+Updated 05072018 with changes in Errata video
+
 This is a library for interfacing the ADS1256 with a Teensy 3.1/3.2 microcontroller. 
 
-To use, open the file ads_1256_custom_library_mux_test_042818 using Arduino/Teensyduino
+To use, open the file ads_1256_custom_library using Arduino/Teensyduino
 
 The two additional files contain the constants and functions used in the code.
+
+All 3 files must be located in the same folder (named ads_1256_custome_library)
 
 It is built upon the following existing projects:
 https://github.com/adienakhmad/ADS1256
