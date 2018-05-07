@@ -8,7 +8,7 @@ To use, open the file ads_1256_custom_library using Arduino/Teensyduino
 
 The two additional files contain the constants and functions used in the code.
 
-All 3 files must be located in the same folder (named ads_1256_custome_library)
+All 3 files must be located in the same folder (named ads_1256_custom_library)
 
 It is built upon the following existing projects:
 https://github.com/adienakhmad/ADS1256
