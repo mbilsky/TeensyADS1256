@@ -125,7 +125,7 @@ ADS1255/6. A shorted sensor produces a very small signal while an open-circuit s
 #define DIR2_IN   B01000000 //D2 is an input (default)
 /*DIR1 - Digital I/O Direction for Pin D3*/
 #define DIR1_OUT B00000000 //D1 is an output
-#define DIR1_IN   B001ßß000 //D1 is an input (default)
+#define DIR1_IN   B00100000 //D1 is an input (default)
 /*DIR0 - Digital I/O Direction for Pin D3*/
 #define DIR0_OUT B00000000 //D0/CLKOUT is an output
 #define DIR0_IN   B00010000 //D0/CLKOUT is an input (default)
