@@ -10,6 +10,8 @@ The two additional files contain the constants and functions used in the code.
 
 All 3 files must be located in the same folder (named ads_1256_custom_library)
 
+Demo video available here: https://www.youtube.com/watch?v=LjLwvXKz2x8
+
 It is built upon the following existing projects:
 https://github.com/adienakhmad/ADS1256
 https://github.com/Flydroid/ADS12xx-Library
