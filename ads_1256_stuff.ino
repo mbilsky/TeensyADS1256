@@ -11,12 +11,6 @@
 void initADS() {
   attachInterrupt(ADS_RDY_PIN, DRDY_Interuppt, FALLING);
 
-  digitalWrite(ADS_RST_PIN, LOW);
-  delay(10); // LOW at least 4 clock cycles of onboard clock. 100 microsecons is enough
-  digitalWrite(ADS_RST_PIN, HIGH); // now reset to deafult values
-
-  delay(1000);
-
   //now reset the ADS
   Reset();
 
