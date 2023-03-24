@@ -1,6 +1,5 @@
 //my code
 //note...this is written for TEENSY meaning I am using DigitalWriteFast to speed things up.
-//thus the CS pin must be hard coded. in my case, this is pin 21 but you will have to change it for yourself if needed
 //see this post about how to use: https://forum.pjrc.com/threads/24573-Speed-of-digitalRead-and-digitalWrite-with-Teensy3-0
 
 //built up on the work of:
@@ -10,8 +9,16 @@
 
 
 void initADS() {
+  attachInterrupt(ADS_RDY_PIN, DRDY_Interuppt, FALLING);
 
-  SendCMD(RESET);
+  digitalWrite(ADS_RST_PIN, LOW);
+  delay(10); // LOW at least 4 clock cycles of onboard clock. 100 microsecons is enough
+  digitalWrite(ADS_RST_PIN, HIGH); // now reset to deafult values
+
+  delay(1000);
+
+  //now reset the ADS
+  Reset();
 
   //let the system power up and stabilize (datasheet pg 24)
   delay(2000);
@@ -197,7 +204,7 @@ void read_three_values() {
 
   waitforDRDY(); // Wait until DRDY is LOW
   SPI.beginTransaction(SPISettings(SPI_SPEED, MSBFIRST, SPI_MODE1));
-  digitalWriteFast(21, LOW); //Pull SS Low to Enable Communications with ADS1247
+  digitalWriteFast(ADS_CS_PIN, LOW); //Pull SS Low to Enable Communications with ADS1247
   //delayMicroseconds(5); // RD: Wait 25ns for ADC12xx to get ready
 
   //now change the mux register
@@ -305,7 +312,7 @@ void read_three_values() {
  // delayMicroseconds(5);
   //this is the value for the
 
-  digitalWriteFast(21, HIGH);
+  digitalWriteFast(ADS_CS_PIN, HIGH);
   SPI.endTransaction();
 
   if (adc_val1 > 0x7fffff) { //if MSB == 1
@@ -331,8 +338,15 @@ void read_three_values() {
 
 //library files
 
+volatile int DRDY_state = HIGH;
+
 void waitforDRDY() {
-  while (digitalRead(ADS_RDY_PIN) == HIGH);
+  while (DRDY_state) {
+    continue;
+  }
+  noInterrupts();
+  DRDY_state = HIGH;
+  interrupts();
 }
 
 //Interrupt function
@@ -367,6 +381,15 @@ void SendCMD(uint8_t cmd) {
   SPI.endTransaction();
 }
 
+void Reset() {
+  SPI.beginTransaction(SPISettings(SPI_SPEED, MSBFIRST, SPI_MODE1)); // initialize SPI with  clock, MSB first, SPI Mode1
+  digitalWriteFast(ADS_CS_PIN, LOW);
+  delayMicroseconds(10);
+  SPI.transfer(RESET); //Reset
+  delay(2); //Minimum 0.6ms required for Reset to finish.
+  digitalWriteFast(ADS_CS_PIN, HIGH);
+  SPI.endTransaction();
+}
 
 void SetRegisterValue(uint8_t regAdress, uint8_t regValue) {
 
